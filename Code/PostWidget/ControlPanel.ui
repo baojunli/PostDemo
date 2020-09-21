@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ControlPanel</class>
+ <widget class="QWidget" name="ControlPanel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>301</width>
+    <height>536</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>360</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QCheckBox" name="AxisCheckBox">
+       <property name="text">
+        <string>Show Axis</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="LegendcheckBox">
+       <property name="text">
+        <string>Show Legend</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>View</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Display</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Variables</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QComboBox" name="ViewComboBox">
+         <item>
+          <property name="text">
+           <string>Fit</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>X plus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>X minus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Y plus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Y miuns</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Z plus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Z minus</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="DiaplayComboBox">
+         <item>
+          <property name="text">
+           <string>Surface</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Surface with edge</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WireFrame</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Node</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="VariableComboBox"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="ImagButton">
+     <property name="text">
+      <string>Save Imag</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
