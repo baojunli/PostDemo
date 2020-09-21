@@ -58,12 +58,6 @@ bool PostData::read(const QString& file)
 
 void PostData::setData(vtkMultiBlockDataSet* mulitData)
 {
-// 	vtkSmartPointer<vtkCompositeDataPipeline> pip = vtkSmartPointer<vtkCompositeDataPipeline>::New();
-// 	vtkSmartPointer<vtkCompositeDataGeometryFilter>  filter = vtkSmartPointer<vtkCompositeDataGeometryFilter>::New();
-// 	filter->SetExecutive(pip);
-// 	filter->SetInputData(mulitData);
-// 	filter->Update();
-
 	if (_data != nullptr) _data->Delete();
 	const int nblock = mulitData->GetNumberOfBlocks();
 	vtkSmartPointer<vtkAppendFilter> app = vtkSmartPointer<vtkAppendFilter>::New();
@@ -80,7 +74,14 @@ void PostData::setData(vtkMultiBlockDataSet* mulitData)
 				vtkDataObject* ssb = sobj->GetBlock(si);
 				if(ssb == nullptr) continue;
 				if (!ssb->IsA("vtkMultiBlockDataSet"))
+				{
 					app->AddInputData(ssb);
+					vtkDataSet* dset = vtkDataSet::SafeDownCast(ssb);
+					if (dset == nullptr) continue;;
+					qDebug() << dset->GetPointData()->GetNumberOfArrays();
+					qDebug() << dset->GetCellData()->GetNumberOfArrays();
+				}
+					
 			}
 		}
 		else
@@ -90,10 +91,10 @@ void PostData::setData(vtkMultiBlockDataSet* mulitData)
 	vtkUnstructuredGrid* gird = app->GetOutput();
 	_data = vtkUnstructuredGrid::New();
 	_data->DeepCopy(gird);
-	qDebug() << _data->GetNumberOfPoints();
-	qDebug() << _data->GetNumberOfCells();
-	qDebug() << _data->GetPointData()->GetNumberOfArrays();
-	qDebug() << _data->GetCellData()->GetArrayName(0);
+// 	qDebug() << _data->GetNumberOfPoints();
+// 	qDebug() << _data->GetNumberOfCells();
+// 	qDebug() << _data->GetPointData()->GetNumberOfArrays();
+// 	qDebug() << _data->GetCellData()->GetArrayName(0);
 }
 
 vtkDataSet* PostData::getData()

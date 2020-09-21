@@ -7,6 +7,7 @@
 #include <vtkCamera.h>
 #include <vtkDataSetMapper.h>
 #include <vtkPointData.h>
+#include <vtkCellData.h>
 #include <vtkActor.h>
 #include <vtkDataSet.h>
 #include <vtkProperty.h>
@@ -92,11 +93,15 @@ void GraphWidget::initLegand()
 	_scalarBarWidget->Off();
 }
 
-void GraphWidget::viewCounter(vtkDataSet* data, QString variable)
+void GraphWidget::viewCounter(vtkDataSet* data, QString variable, int vatype)
 {
  	qDebug() << variable;
+	
+	if(vatype == 0)
+	   data->GetPointData()->SetActiveScalars(variable.toStdString().data());
+	else
+		data->GetCellData()->SetActiveScalars(variable.toStdString().data());
 
-	data->GetPointData()->SetActiveScalars(variable.toStdString().data());
 	double* range = data->GetScalarRange();
 	qDebug() << range[0] << "  " << range[1];
 //	_scalarBarWidget->GetScalarBarActor()->SetTitle(variable.toStdString().data());

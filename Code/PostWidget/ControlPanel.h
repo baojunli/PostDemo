@@ -25,7 +25,7 @@ private slots:
 	void on_displayChanged(int index);
 
 private:
-	void updateVariableCombox(QStringList vas);
+	void updateVariableCombox(QStringList pvas, QStringList cvas);
 
 private:
 	Ui::ControlPanel* _ui{};

@@ -13,8 +13,8 @@ MainDialog::MainDialog()
 //	_ui->controlLayout->addWidget(c);
 	_ui->graphLayout->addWidget(c);;
 	
-	QString f("F:\\PostDemo\\Code\\Main\\temp_022w.hot");
-//	QString f("F:\\PostDemo\\Code\\Main\\yuanguan_temperature_exodus.e");
+//	QString f("F:\\PostDemo\\Code\\Main\\temp_022w.hot");
+	QString f("F:\\PostDemo\\Code\\Main\\yuanguan_temperature_exodus.e");
 	PostWidget::openFile(f);
 }
 

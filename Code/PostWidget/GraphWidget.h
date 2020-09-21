@@ -28,7 +28,7 @@ public:
 
 	void setView(int, int, int);
 	void fitView();
-	void viewCounter(vtkDataSet* data , QString variable);
+	void viewCounter(vtkDataSet* data , QString variable, int vatype);
 	void setDisplay(int type);
 	void savePic();
 private:

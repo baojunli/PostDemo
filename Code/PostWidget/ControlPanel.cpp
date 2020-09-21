@@ -28,13 +28,17 @@ void ControlPanel::openFile(QString f)
 {
 	bool ok = PostData::getInstance()->read(f);
 	if (!ok) return;
-	QStringList names = PostData::getInstance()->getVariableName();
-	updateVariableCombox(names);
+	
+	QStringList pointVariables = PostData::getInstance()->getVariableName();
+	QStringList cellVariables = PostData::getInstance()->getVariableName(1);
 
-	QString va = _ui->VariableComboBox->currentText();
-	vtkDataObject* obj = PostData::getInstance()->getData();
-	vtkDataSet* data = vtkDataSet::SafeDownCast(obj);
-	_graphWidget->viewCounter(data, va);
+	updateVariableCombox(pointVariables,cellVariables);
+
+	on_variableChanged(0);
+// 	QString va = _ui->VariableComboBox->currentText();
+// 	vtkDataObject* obj = PostData::getInstance()->getData();
+// 	vtkDataSet* data = vtkDataSet::SafeDownCast(obj);
+// 	_graphWidget->viewCounter(data, va);
 
 }
 
@@ -59,9 +63,10 @@ void ControlPanel::on_viewChanged(int index)
 void ControlPanel::on_variableChanged(int index)
 {
 	QString va = _ui->VariableComboBox->currentText();
+	int typeInt = _ui->VariableComboBox->currentData().toInt();
 	vtkDataSet* obj = PostData::getInstance()->getData();
-//	vtkDataSet* data = vtkDataSet::SafeDownCast(obj);
-	_graphWidget->viewCounter(obj, va);
+	vtkDataSet* data = vtkDataSet::SafeDownCast(obj);
+	_graphWidget->viewCounter(obj, va, typeInt);
 }
 
 void ControlPanel::on_displayChanged(int index)
@@ -69,10 +74,19 @@ void ControlPanel::on_displayChanged(int index)
 	_graphWidget->setDisplay(index);
 }
 
-void ControlPanel::updateVariableCombox(QStringList vas)
+void ControlPanel::updateVariableCombox(QStringList pvas, QStringList cvas)
 {
+	_ui->VariableComboBox->blockSignals(true);
 	_ui->VariableComboBox->clear();
-	_ui->VariableComboBox->addItems(vas);
-
+	
+	for (QString va : pvas)
+	{
+		_ui->VariableComboBox->addItem(QIcon(""), va, 0);
+	}
+	for (QString va : cvas)
+	{
+		_ui->VariableComboBox->addItem(QIcon(""), va, 1);
+	}
+	_ui->VariableComboBox->blockSignals(false);
 }
 
