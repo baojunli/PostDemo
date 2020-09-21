@@ -19,6 +19,9 @@
 #include <vtkScalarBarActor.h>
 #include <vtkBorderRepresentation.h>
 #include <vtkLookupTable.h>
+#include <vtkWindowToImageFilter.h>
+#include <vtkImageResize.h>
+#include <vtkPNGWriter.h>
 
 GraphWidget::GraphWidget()
 {
@@ -74,9 +77,12 @@ void GraphWidget::initLegand()
 	propLable->SetFontSize(14);
 
 	vtkLookupTable *lut = vtkLookupTable::New();
-	lut->SetNumberOfTableValues(50);
-	//ÉèÖÃÑÕÉ«Ó³ÉäµÄ·¶Î§
-	lut->SetTableRange(0, 10);
+	
+	lut->SetAlphaRange(1, 1);
+	lut->SetHueRange(0.67,0);
+	lut->SetNumberOfColors(50);
+// 	//ÉèÖÃÑÕÉ«Ó³ÉäµÄ·¶Î§
+// 	lut->SetTableRange(0, 10);
 	lut->Build();
 
 	_scalarBarWidget = vtkSmartPointer<vtkScalarBarWidget>::New();
@@ -161,7 +167,21 @@ void GraphWidget::setDisplay(int type)
 	}
 }
 
-void GraphWidget::savePic()
+void GraphWidget::savePic(QString filename)
 {
-	
+	double w = this->width();
+	double h = this->height();
+
+	vtkSmartPointer<vtkWindowToImageFilter> report_windowToImageFilter = vtkSmartPointer<vtkWindowToImageFilter>::New();
+	vtkSmartPointer<vtkImageResize> report_resize = vtkSmartPointer<vtkImageResize>::New();
+	vtkSmartPointer<vtkPNGWriter> report_writer = vtkSmartPointer<vtkPNGWriter>::New();
+
+	report_windowToImageFilter->SetInput(_renderWindow);
+	report_resize->SetInputConnection(report_windowToImageFilter->GetOutputPort());
+	report_resize->SetOutputDimensions(w, h, 1);
+	report_resize->Update();
+	report_writer->SetFileName(filename.toLocal8Bit().data());
+	report_writer->SetInputConnection(report_resize->GetOutputPort());
+	report_writer->Write();
+
 }

@@ -30,7 +30,7 @@ public:
 	void fitView();
 	void viewCounter(vtkDataSet* data , QString variable, int vatype);
 	void setDisplay(int type);
-	void savePic();
+	void savePic(QString filename);
 private:
 	void initAxis();
 	void initLegand();

@@ -74,6 +74,12 @@ void ControlPanel::on_displayChanged(int index)
 	_graphWidget->setDisplay(index);
 }
 
+void ControlPanel::on_ImagButton_clicked()
+{
+	QString f = QFileDialog::getSaveFileName(this, "Save Pic", "", "PNG(*.png)");
+	_graphWidget->savePic(f);
+}
+
 void ControlPanel::updateVariableCombox(QStringList pvas, QStringList cvas)
 {
 	_ui->VariableComboBox->blockSignals(true);
