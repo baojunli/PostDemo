@@ -16,6 +16,8 @@
 #include <vtkUnstructuredGrid.h>
 #include "PostData/PostData.h"
 
+
+
 PostData* PostData::_instance = nullptr;
 
 PostData* PostData::getInstance()
@@ -59,34 +61,41 @@ bool PostData::read(const QString& file)
 void PostData::setData(vtkMultiBlockDataSet* mulitData)
 {
 	if (_data != nullptr) _data->Delete();
-	const int nblock = mulitData->GetNumberOfBlocks();
-	vtkSmartPointer<vtkAppendFilter> app = vtkSmartPointer<vtkAppendFilter>::New();
-	for (int i =0;i<nblock; ++i)
+// 	const int nblock = mulitData->GetNumberOfBlocks();
+ 	vtkSmartPointer<vtkAppendFilter> app = vtkSmartPointer<vtkAppendFilter>::New();
+// 	for (int i =0;i<nblock; ++i)
+// 	{
+// 		vtkDataObject* obj = mulitData->GetBlock(i);
+// 		if (obj->IsA("vtkMultiBlockDataSet"))
+// 		{
+// 			vtkMultiBlockDataSet* sobj = vtkMultiBlockDataSet::SafeDownCast(obj);
+// 			if(sobj == nullptr) continue;
+// 			const int snbolck = sobj->GetNumberOfBlocks();
+// 			for (int si = 0; si < snbolck; ++si)
+// 			{
+// 				vtkDataObject* ssb = sobj->GetBlock(si);
+// 				if(ssb == nullptr) continue;
+// 				if (!ssb->IsA("vtkMultiBlockDataSet"))
+// 				{
+// 					app->AddInputData(ssb);
+// 					vtkDataSet* dset = vtkDataSet::SafeDownCast(ssb);
+// 					if (dset == nullptr) continue;;
+// 					qDebug() << dset->GetPointData()->GetNumberOfArrays();
+// 					qDebug() << dset->GetCellData()->GetNumberOfArrays();
+// 				}
+// 					
+// 			}
+// 		}
+// 		else
+// 			app->AddInputData(obj);
+// 	}
+	QList<vtkDataObject*> objs;
+	getDataObject(mulitData, objs);
+	for (auto obj : objs)
 	{
-		vtkDataObject* obj = mulitData->GetBlock(i);
-		if (obj->IsA("vtkMultiBlockDataSet"))
-		{
-			vtkMultiBlockDataSet* sobj = vtkMultiBlockDataSet::SafeDownCast(obj);
-			if(sobj == nullptr) continue;
-			const int snbolck = sobj->GetNumberOfBlocks();
-			for (int si = 0; si < snbolck; ++si)
-			{
-				vtkDataObject* ssb = sobj->GetBlock(si);
-				if(ssb == nullptr) continue;
-				if (!ssb->IsA("vtkMultiBlockDataSet"))
-				{
-					app->AddInputData(ssb);
-					vtkDataSet* dset = vtkDataSet::SafeDownCast(ssb);
-					if (dset == nullptr) continue;;
-					qDebug() << dset->GetPointData()->GetNumberOfArrays();
-					qDebug() << dset->GetCellData()->GetNumberOfArrays();
-				}
-					
-			}
-		}
-		else
-			app->AddInputData(obj);
+		app->AddInputData(obj);
 	}
+
 	app->Update();
 	vtkUnstructuredGrid* gird = app->GetOutput();
 	_data = vtkUnstructuredGrid::New();
@@ -100,6 +109,27 @@ void PostData::setData(vtkMultiBlockDataSet* mulitData)
 vtkDataSet* PostData::getData()
 {
 	return _data;
+}
+
+void PostData::getDataObject(vtkMultiBlockDataSet* md, QList<vtkDataObject*>& dataList)
+{
+	if (md == nullptr) return;
+	const int n = md->GetNumberOfBlocks();
+	for (int i=0;i<n; ++i)
+	{
+		vtkDataObject*obj = md->GetBlock(i);
+		if(obj == nullptr) continue;
+		if (obj->IsA("vtkMultiBlockDataSet"))
+		{
+			vtkMultiBlockDataSet* mublock = vtkMultiBlockDataSet::SafeDownCast(obj);
+			if (mublock != nullptr)
+				getDataObject(mublock, dataList);
+		}
+		else
+		{
+			dataList.append(obj);
+		}
+	}
 }
 
 void PostData::getRange(QString va, double* range, int type)

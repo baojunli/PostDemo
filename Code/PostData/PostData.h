@@ -5,6 +5,7 @@
 
 class vtkMultiBlockDataSet;
 class vtkDataSet;
+class vtkDataObject;
 
 class PostDataAPI PostData
 {
@@ -25,6 +26,8 @@ private:
 	PostData() = default;
 	~PostData() = default;
 
+	void getDataObject(vtkMultiBlockDataSet* md, QList<vtkDataObject*>& dataList);
+	
 private:
 	static PostData* _instance;
 	vtkDataSet* _data{};
