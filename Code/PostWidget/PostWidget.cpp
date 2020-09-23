@@ -1,11 +1,18 @@
 #include "PostWidget.h"
 #include "ControlPanel.h"
 #include "GraphWidget.h"
+#include "PostData/PostData.h"
 #include <QHBoxLayout>
 
-QWidget* PostWidget::_controlPanel = nullptr;
-QWidget* PostWidget::_graphWidget = nullptr;
-QWidget* PostWidget::_whole = nullptr;
+PostWidget::PostWidget()
+{
+	this->init();
+}
+
+PostWidget::~PostWidget()
+{
+	PostData::getInstance()->clearData();
+}
 
 void PostWidget::init()
 {
@@ -33,7 +40,7 @@ QWidget * PostWidget::getControlPanel()
 void PostWidget::openFile(const QString file)
 {
 	if (_controlPanel == nullptr || _graphWidget == nullptr) return;
-	auto c = dynamic_cast<ControlPanel*>(_controlPanel);
+	auto c = static_cast<ControlPanel*>(_controlPanel);
 	c->openFile(file);
 }
 

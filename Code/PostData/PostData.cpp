@@ -167,3 +167,12 @@ QStringList PostData::getVariableName(int type)
 
 }
 
+void PostData::clearData()
+{
+	if (_data != nullptr)
+	{
+		_data->Delete();
+		_data = nullptr;
+	}
+}
+

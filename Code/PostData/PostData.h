@@ -21,6 +21,8 @@ public :
 	void getRange(QString va, double* range, int type =0);
 	//获取变量名称  type 0-节点值 1-单元值
 	QStringList getVariableName(int type = 0);
+	//清空数据
+	void clearData();
 
 private:
 	PostData() = default;

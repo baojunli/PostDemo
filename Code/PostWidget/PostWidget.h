@@ -7,14 +7,19 @@ class QWidget;
 class PostWidgetAPI  PostWidget
 {
 public:
-	static void init();
-	static QWidget* getGraphWidget();
-	static QWidget* getControlPanel();
-	static void openFile(const QString file);
-	static QWidget* getWhole();
+	PostWidget();
+	~PostWidget();
+
+	 QWidget* getGraphWidget();
+	 QWidget* getControlPanel();
+	 void openFile(const QString file);
+	 QWidget* getWhole();
 
 private:
-	static QWidget* _graphWidget;
-	static QWidget* _controlPanel;
-	static QWidget* _whole;
+	void init();
+
+private:
+	QWidget* _graphWidget{};
+	QWidget* _controlPanel{};
+	QWidget* _whole{};
 };
