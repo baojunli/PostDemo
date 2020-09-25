@@ -31,6 +31,7 @@ public:
 	void viewCounter(vtkDataSet* data , QString variable, int vatype);
 	void setDisplay(int type);
 	void savePic(QString filename);
+	void clearActors();
 private:
 	void initAxis();
 	void initLegand();

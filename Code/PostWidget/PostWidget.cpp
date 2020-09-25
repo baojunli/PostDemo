@@ -40,6 +40,8 @@ QWidget * PostWidget::getControlPanel()
 void PostWidget::openFile(const QString file)
 {
 	if (_controlPanel == nullptr || _graphWidget == nullptr) return;
+	auto g = static_cast<GraphWidget*>(_graphWidget);
+	g->clearActors();
 	auto c = static_cast<ControlPanel*>(_controlPanel);
 	c->openFile(file);
 }

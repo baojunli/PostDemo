@@ -185,3 +185,12 @@ void GraphWidget::savePic(QString filename)
 	report_writer->Write();
 
 }
+
+void GraphWidget::clearActors()
+{
+	QList<vtkActor*> actors = _actoors.values();
+	for (auto a : actors)
+		_render->RemoveActor(a);
+	_actoors.clear();
+	_renderWindow->Render();
+}
