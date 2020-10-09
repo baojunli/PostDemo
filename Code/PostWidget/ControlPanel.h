@@ -25,6 +25,9 @@ private slots:
 	void on_displayChanged(int index);
 	void on_ImagButton_clicked();
 
+	//∂¡»°ÕÍ±œ
+	void onReadFinish();
+
 private:
 	void updateVariableCombox(QStringList pvas, QStringList cvas);
 

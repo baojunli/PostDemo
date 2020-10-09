@@ -2,6 +2,8 @@
 #include "ui_dialog.h"
 #include "Dialog.h"
 #include "PostWidget/PostWidget.h"
+#include <QTime>
+#include <qdebug>
 
 MainDialog::MainDialog()
 {
@@ -15,7 +17,11 @@ MainDialog::MainDialog()
 	
 //	QString f("F:\\PostDemo\\Code\\Main\\temp_022w.hot");
 	QString f("F:\\PostDemo\\Code\\Main\\yuanguan_temperature_exodus.e");
+//	QString f("E:\\wangfan_stress_master_exodus.e");
+	qDebug() << QTime::currentTime();
 	pw->openFile(f);
+	qDebug() << QTime::currentTime();
+
 }
 
 MainDialog::~MainDialog()

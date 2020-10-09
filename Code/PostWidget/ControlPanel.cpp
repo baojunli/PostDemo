@@ -17,6 +17,7 @@ ControlPanel::ControlPanel(GraphWidget* gw)
 	connect(_ui->ViewComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_viewChanged(int)));
 	connect(_ui->VariableComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_variableChanged(int)));
 	connect(_ui->DiaplayComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_displayChanged(int)));
+	connect(PostData::getInstance(), SIGNAL(readFinished()), this, SLOT(onReadFinish()));
 }
 
 ControlPanel::~ControlPanel()
@@ -26,19 +27,8 @@ ControlPanel::~ControlPanel()
 
 void ControlPanel::openFile(QString f)
 {
-	bool ok = PostData::getInstance()->read(f);
-	if (!ok) return;
+	PostData::getInstance()->read(f);
 	
-	QStringList pointVariables = PostData::getInstance()->getVariableName();
-	QStringList cellVariables = PostData::getInstance()->getVariableName(1);
-
-	updateVariableCombox(pointVariables,cellVariables);
-
-	on_variableChanged(0);
-// 	QString va = _ui->VariableComboBox->currentText();
-// 	vtkDataObject* obj = PostData::getInstance()->getData();
-// 	vtkDataSet* data = vtkDataSet::SafeDownCast(obj);
-// 	_graphWidget->viewCounter(data, va);
 
 }
 
@@ -78,6 +68,17 @@ void ControlPanel::on_ImagButton_clicked()
 {
 	QString f = QFileDialog::getSaveFileName(this, "Save Pic", "", "PNG(*.png)");
 	_graphWidget->savePic(f);
+}
+
+void ControlPanel::onReadFinish()
+{
+	if (PostData::getInstance()->getData() == nullptr) return;
+
+	QStringList pointVariables = PostData::getInstance()->getVariableName();
+	QStringList cellVariables = PostData::getInstance()->getVariableName(1);
+
+	updateVariableCombox(pointVariables, cellVariables);
+	on_variableChanged(0);
 }
 
 void ControlPanel::updateVariableCombox(QStringList pvas, QStringList cvas)
