@@ -20,6 +20,8 @@ class vtkScalarBarWidget;
 class vtkDataSet;
 class vtkActor;
 
+class InteractionStyle;
+
 class GraphWidget : public QVTKWidget
 {
 public:
@@ -32,9 +34,13 @@ public:
 	void setDisplay(int type);
 	void savePic(QString filename);
 	void clearActors();
+
 private:
 	void initAxis();
 	void initLegand();
+
+	void keyPressEvent(QKeyEvent* event) override;
+	void keyReleaseEvent(QKeyEvent* event) override;
 
 private:
 	vtkSmartPointer<vtkRenderer> _render{};
@@ -44,4 +50,6 @@ private:
 	vtkSmartPointer<vtkScalarBarWidget> _scalarBarWidget{};
 
 	QHash<vtkDataSet*, vtkActor*> _actoors{};
+
+	InteractionStyle * _interactionStyle{};
 };

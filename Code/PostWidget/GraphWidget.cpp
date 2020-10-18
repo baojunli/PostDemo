@@ -22,6 +22,8 @@
 #include <vtkWindowToImageFilter.h>
 #include <vtkImageResize.h>
 #include <vtkPNGWriter.h>
+#include <QKeyEvent>
+#include "InteractionStyle.h"
 
 GraphWidget::GraphWidget()
 {
@@ -32,6 +34,12 @@ GraphWidget::GraphWidget()
 	_render->SetBackground(1.0, 1.0, 1.0);
 	_renderWindow->AddRenderer(_render);
 	_interactor = _renderWindow->GetInteractor();
+
+	_interactionStyle = InteractionStyle::New();
+	_interactionStyle->SetDefaultRenderer(_render);
+	_interactionStyle->SetCurrentRenderer(_render);
+	_interactor->SetInteractorStyle(_interactionStyle);
+
 
 	this->initAxis();
 	this->initLegand();
@@ -97,6 +105,18 @@ void GraphWidget::initLegand()
 	_scalarBarWidget->GetScalarBarActor()->SetLookupTable(lut);
 	_scalarBarWidget->SetInteractor(_interactor);
 	_scalarBarWidget->Off();
+}
+
+void GraphWidget::keyPressEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_Control)
+		_interactionStyle->ctrlPress(true);
+}
+
+void GraphWidget::keyReleaseEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_Control)
+		_interactionStyle->ctrlPress(false);
 }
 
 void GraphWidget::viewCounter(vtkDataSet* data, QString variable, int vatype)
